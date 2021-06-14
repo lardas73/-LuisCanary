@@ -7,6 +7,8 @@ public class CameraLook : MonoBehaviour
     public float mouseSensitivity = 80f;
     public Transform playerBody;
     private float xRotation = 0;
+
+    private float inputMouseX, inputMouseY;
     
     // Start is called before the first frame update
     void Start()
@@ -17,11 +19,11 @@ public class CameraLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-        xRotation += mouseY;
-        xRotation = Mathf.Clamp(xRotation, 90f, 90f);
+        inputMouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        inputMouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        xRotation -= inputMouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        playerBody.Rotate(Vector3.up * mouseX);
+        playerBody.Rotate(Vector3.up * inputMouseX);
     }
 }
